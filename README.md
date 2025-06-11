@@ -2,10 +2,10 @@
 
 ## Sobre mim
 
-- 🤔 Aprendendo novas linguagens e áreas na tecnologia
+- 🖥️ Aprendendo novas linguagens e áreas na tecnologia
 - 🎓 Estudando Ciencias da computação na Ulbra.
 - 💼Em busca de estágios ou projetos.
-- 🌱 Visando trabalhar no futuro com computação quântica e machine learning.
+- 🤖 Visando trabalhar no futuro com computação quântica e machine learning.
 
 ## Minhas Skills
 
@@ -37,3 +37,59 @@
 [![Linkedin](https://img.shields.io/badge/-username-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/daniel-bernardes-342876344?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)](https://www.linkedin.com/in/daniel-bernardes-342876344?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
 [![Gmail Badge](https://img.shields.io/badge/-danielbernardesaraujo10@gmail.com-006bed?style=flat-square&logo=Gmail&logoColor=white&link=mailto:danielbernardesaraujo10@gmail.com)](mailto:danielbernardesaraujo10@gmail.com)
 [![GitHub](https://img.shields.io/github/followers/Yourdevdaniel?label=follow&style=social)](https://github.com/Yourdevdaniel)
+
+<table>
+  <tr>
+    <td>
+      <img
+        align="left"
+        src="https://github-readme-stats.vercel.app/api?username=Yourdevdaniel&theme=dark&hide_border=false&include_all_commits=true"
+        alt="Github Stats"
+      />
+    </td>
+    <td>
+      <img
+        align="left"
+        src="https://github-readme-stats.vercel.app/api/top-langs/?username=Yourdevdaniel&theme=dark&hide_border=false&include_all_commits=true&count_private=true&layout=compact"
+        alt="Github Stats"
+      />
+    </td>
+    <td>
+      <br />
+      <img
+        align="left"
+        src="https://github-readme-streak-stats.herokuapp.com/?user=Yourdevdaniel&theme=dark&hide_border=false"
+        alt="Github Stats"
+      />
+    </td>
+  </tr>
+</table>
+
+--- 
+
+### 🏆 GitHub Profile Trophy
+
+<p align="center">
+  <a
+    href="https://github.com/Yourdevdaniel/github-profile-trophy"
+    title="repositório de troféus"
+  >
+    <img
+      width="800"
+      src="https://github-profile-trophy.vercel.app/?username=Yourdevdaniel&column=8&theme=darkhub&no-frame=true&no-bg=true"
+    />
+  </a>
+</p>
+
+---
+
+<div align="center">
+  <h3><b>📍 Profile Visitor Count</b></h3>
+</div>
+
+<p align="center">
+  <img
+    src="https://profile-counter.glitch.me/Yourdevdaniel/count.svg"
+    alt="Número de visitantes no perfil"
+  />
+</p>
