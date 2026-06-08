@@ -31,7 +31,7 @@
   <ul>
     <li>Email: <a href="mailto:danielbernardesaraujo10@gmail.com">Mail</a></li>
     <li>GitHub: <a href="https://github.com/Yourdevdaniel">Yourdevdaniel</a></li>
-    <li>PT-BR: <a href="https://github.com/Yourdevdaniel">Português (PT-BR)</a></li>
+    <li>PT-BR: <a href="https://github.com/Yourdevdaniel/Yourdevdaniel/blob/main/Pt_Br.md">Português (PT-BR)</a></li>
   </ul>
 </td>
   </tr>
