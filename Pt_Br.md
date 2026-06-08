@@ -1,7 +1,7 @@
 <table>
   <tr>
     <td width="400">
-      <img src="De-sterrennacht.avif" width="400" alt="A Noite Estrelada - Vincent van Gogh">
+      <img src="De_sterrennacht.avif" width="400" alt="A Noite Estrelada - Vincent van Gogh">
     </td>
     <td valign="top">
       <h1>Daniel</h1>
