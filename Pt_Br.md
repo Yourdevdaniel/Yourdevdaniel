@@ -1,42 +1,34 @@
-<table>
-  <tr>
-    <td width="400">
-      <img src="De_sterrennacht.avif" width="400" alt="A Noite Estrelada - Vincent van Gogh">
-    </td>
-    <td valign="top">
-      <h1>Daniel</h1>
-  <p>
-    Estudante de Ci&ecirc;ncia da Computa&ccedil;&atilde;o com foco em desenvolvimento full-stack,
-    ciberseguran&ccedil;a e bancos de dados. Atualmente trabalho na Egefaz
-    desenvolvendo sistemas web. Tenho especial interesse em sistemas
-    operacionais, redes de computadores, an&aacute;lise de dados, computa&ccedil;&atilde;o
-    qu&acirc;ntica, linguagens de programa&ccedil;&atilde;o e tecnologias emergentes.
-  </p>
+<img src="assets/header-rice.svg" width="100%" alt="Desktop de tiling WM com A Noite Estrelada de wallpaper: uma janela de fastfetch (estudante de Ciência da Computação na Egefaz), meus projetos públicos e as linguagens que eles usam">
+<p align="right"><sub>Wallpaper: <i>A Noite Estrelada</i>, Vincent van Gogh (1889)</sub></p>
 
-  <h2>&Aacute;reas de Interesse</h2>
-  <ul>
-    <li>Ciberseguran&ccedil;a e seguran&ccedil;a de redes</li>
-    <li>Intelig&ecirc;ncia artificial e aprendizado de m&aacute;quina</li>
-    <li>Sistemas operacionais e arquitetura de sistemas</li>
-    <li>Desenvolvimento de jogos e aplica&ccedil;&otilde;es interativas</li>
-    <li>An&aacute;lise de dados e solu&ccedil;&otilde;es orientadas por dados</li>
-    <li>Desenvolvimento web full-stack</li>
-  </ul>
+# Oi, eu sou o Daniel 👋
 
-  <h2>Tecnologias</h2>
-  <ul>
-    <li>Linguagens: Python, Java, JavaScript</li>
-    <li>DevOps: Git, GitHub</li>
-    <li>Ferramentas e Tecnologias: Linux, VS Code, Figma</li>
-    <li>Aplica&ccedil;&otilde;es: Aplica&ccedil;&otilde;es web, Estruturas de Dados, Sistemas</li>
-  </ul>
+Estudante de Ciência da Computação e desenvolvedor na **Egefaz**, onde construo sistemas web.
+Quase todo projeto meu começa numa bagunça real (uma planilha, uma condição de corrida,
+uma consulta lenta) e termina com a correção medida e testada. **Aberto a estágio.**
 
-  <h2>Contato</h2>
-  <ul>
-    <li>Email: <a href="mailto:danielbernardesaraujo10@gmail.com">E-mail</a></li>
-    <li>GitHub: <a href="https://github.com/Yourdevdaniel">Yourdevdaniel</a></li>
-    <li>English: <a href="https://github.com/Yourdevdaniel">English</a></li>
-  </ul>
-</td>
-  </tr>
-</table>
+<p>
+  <a href="https://www.linkedin.com/in/yourdevdaniel"><img src="https://img.shields.io/badge/LinkedIn-yourdevdaniel-2b4c8c?logo=linkedin&labelColor=0b1426&color=2b4c8c&style=for-the-badge&logoColor=f2c14e" alt="LinkedIn"></a>
+  <a href="mailto:danielbernardesaraujo10@gmail.com"><img src="https://img.shields.io/badge/E--mail-danielbernardesaraujo10-2b4c8c?logo=gmail&labelColor=0b1426&color=2b4c8c&style=for-the-badge&logoColor=f2c14e" alt="Email"></a>
+  <a href="./README.md"><img src="https://img.shields.io/badge/Read_in-English-2b4c8c?logo=googletranslate&labelColor=0b1426&color=2b4c8c&style=for-the-badge&logoColor=f2c14e" alt="Read in English"></a>
+</p>
+
+### 📌 Destaques
+
+| Projeto | A história | Stack |
+|---|---|---|
+| [**boardgame-library-db**](https://github.com/Yourdevdaniel/boardgame-library-db) | Dois empréstimos simultâneos da mesma cópia passavam pelo trigger; um índice único parcial resolveu. Uma FK sem índice deixava uma consulta ~800x mais lenta. | PostgreSQL · Python · pytest |
+| [**ConverteAqui**](https://github.com/Yourdevdaniel/ConverteAqui) | Entra planilha de leads crua; sai Excel e PDF limpos, sem duplicados e com score. Duas lojas com o mesmo nome só viram uma quando o link do Maps prova que são a mesma. | Django · React · Docker |
+| [**PlanejaMes**](https://github.com/Yourdevdaniel/PlanejaMes) · [ao vivo](https://planeja-mes.vercel.app) | Planejamento financeiro mensal com regra 50/30/20, planilha A4 para imprimir e cena 3D interativa. | React · Three.js · GSAP |
+| [**Projeto-Arvore**](https://github.com/Yourdevdaniel/Projeto-Arvore) | Visualizador passo a passo de Árvore Binária de Busca em Python, no estilo do Python Tutor. | JavaScript · React |
+
+### Tecnologias
+
+- **Linguagens:** Python, JavaScript, SQL, Java
+- **Backend e dados:** Django, PostgreSQL
+- **Frontend:** React, Vite, Three.js
+- **Ferramentas:** Git, Docker Compose, Vercel, GitHub Pages, Linux
+
+---
+
+<p align="center"><sub><i>“Eu sonho a minha pintura e depois pinto o meu sonho.” (Vincent van Gogh)</i></sub></p>
