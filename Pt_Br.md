@@ -3,7 +3,7 @@
 
 # Oi, eu sou o Daniel 👋
 
-Desenvolvedor full-stack júnior de Palmas (TO). Curso Ciência da Computação no Ceulp/ULBRA e sou estagiário de TI na **EGEFAZ**,
+Desenvolvedor full-stack júnior. Curso Ciência da Computação no Ceulp/ULBRA e sou estagiário de TI na **EGEFAZ**,
 a Escola de Gestão Fazendária da Secretaria da Fazenda do Tocantins, onde sou um dos dois desenvolvedores do sistema que
 cuida de todo evento de capacitação dos servidores do estado.
 

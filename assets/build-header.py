@@ -119,7 +119,7 @@ parts = [
     f'<rect width="900" height="420" fill="{INK}" fill-opacity="0.18"/>',
     f'<rect width="900" height="30" fill="{INK}" fill-opacity="0.9"/>' + ''.join(bar)
     + f'<text x="450.0" y="20" font-size="12" text-anchor="middle" fill="{CREAM}">Yourdevdaniel</text>'
-    + f'<text x="886" y="20" font-size="12" text-anchor="end" fill="{TEXT}">Palmas, TO  ·  open to work  ·  ●</text>',
+    + f'<text x="886" y="20" font-size="12" text-anchor="end" fill="{TEXT}">Brazil  ·  open to work  ·  ●</text>',
     # fastfetch
     f'<rect x="12" y="42" width="426" height="366" rx="10" fill="{INK}" fill-opacity="0.92" stroke="{GOLD}" stroke-width="2"/>'
     f'<text x="26" y="64" font-size="12" fill="{DIM}">~ — fastfetch</text><line x1="12" y1="74" x2="438" y2="74" stroke="{LINE}"/>'

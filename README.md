@@ -3,7 +3,7 @@
 
 # Hi, I'm Daniel 👋
 
-Junior full-stack developer from Palmas, Brazil. I study Computer Science at Ceulp/ULBRA and work as an IT intern at **EGEFAZ**,
+Junior full-stack developer from Brazil. I study Computer Science at Ceulp/ULBRA and work as an IT intern at **EGEFAZ**,
 the Tocantins State Department of Finance's school, where I'm one of the two developers on the system that runs every
 training event for state public servants.
 
