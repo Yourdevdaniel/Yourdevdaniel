@@ -11,7 +11,7 @@ I build with Django, React and TypeScript. Most of my projects start from a real
 a race condition) and end with the fix measured and tested. **Open to internships and junior roles.**
 
 <p>
-  <a href="https://danielbernardes.vercel.app"><img src="https://img.shields.io/badge/Portfolio-danielbernardes.vercel.app-2b4c8c?logo=vercel&labelColor=0b1426&color=2b4c8c&style=for-the-badge&logoColor=f2c14e" alt="Portfolio"></a>
+  <a href="https://bernardes.dev"><img src="https://img.shields.io/badge/Portfolio-bernardes.dev-2b4c8c?logo=vercel&labelColor=0b1426&color=2b4c8c&style=for-the-badge&logoColor=f2c14e" alt="Portfolio"></a>
   <a href="https://www.linkedin.com/in/yourdevdaniel"><img src="https://img.shields.io/badge/LinkedIn-yourdevdaniel-2b4c8c?logo=linkedin&labelColor=0b1426&color=2b4c8c&style=for-the-badge&logoColor=f2c14e" alt="LinkedIn"></a>
   <a href="mailto:danielbernardesaraujo10@gmail.com"><img src="https://img.shields.io/badge/Email-danielbernardesaraujo10-2b4c8c?logo=gmail&labelColor=0b1426&color=2b4c8c&style=for-the-badge&logoColor=f2c14e" alt="Email"></a>
   <a href="./Pt_Br.md"><img src="https://img.shields.io/badge/Leia_em-Português-2b4c8c?logo=googletranslate&labelColor=0b1426&color=2b4c8c&style=for-the-badge&logoColor=f2c14e" alt="Leia em português"></a>
@@ -21,7 +21,7 @@ a race condition) and end with the fix measured and tested. **Open to internship
 
 | Project | The story | Stack |
 |---|---|---|
-| [**portfolio**](https://danielbernardes.vercel.app) · live | My site. A name that widens and folds as you scroll, project cards that stack, real screen recordings. Two languages, light and dark, works with the keyboard and with reduced motion. | React · TypeScript · GSAP |
+| [**portfolio**](https://bernardes.dev) · live | My site. A name that widens and folds as you scroll, project cards that stack, real screen recordings. Two languages, light and dark, works with the keyboard and with reduced motion. | React · TypeScript · GSAP |
 | [**contrato-facil**](https://github.com/Yourdevdaniel/contrato-facil) | A guided questionnaire writes a service contract. Signers sign in order with one-time codes, and every step goes into a SHA-256 audit trail and the final PDF. | Django · React · PostgreSQL |
 | [**cafe-verde**](https://github.com/Yourdevdaniel/cafe-verde) | Customers order from the table on their phone; the kitchen and waiter screens update live over WebSockets. | Django Channels · Redis · React |
 | [**dublacon**](https://github.com/Yourdevdaniel/dublacon) | A social network where amateur voice actors, animators and artists team up on creative projects. | DRF · React · PostgreSQL |
@@ -33,7 +33,7 @@ a race condition) and end with the fix measured and tested. **Open to internship
 Smaller ones: [Projeto-Arvore](https://github.com/Yourdevdaniel/Projeto-Arvore) (step-by-step BST visualizer) and
 [transit-router](https://github.com/Yourdevdaniel/transit-router) (fewest stops vs fastest trip, BFS against Dijkstra).
 Some of my work is private: an app in daily use at a local store and two apps in development.
-[My site](https://danielbernardes.vercel.app/#work) shows what I can share.
+[My site](https://bernardes.dev/#work) shows what I can share.
 
 ### Tech
 
