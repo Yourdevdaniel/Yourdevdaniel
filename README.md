@@ -5,10 +5,10 @@
 <p align="center">Computer Science at Ceulp/ULBRA, IT intern at <b>EGEFAZ</b>. I start from a real mess and end with the fix measured and tested.</p>
 
 <p align="center">
-  <a href="https://bernardes.dev"><img src="https://img.shields.io/badge/Portfolio-bernardes.dev-b8312f?logo=vercel&labelColor=1d1a17&color=b8312f&style=for-the-badge&logoColor=efe6d2" alt="Portfolio"></a>
-  <a href="https://www.linkedin.com/in/yourdevdaniel"><img src="https://img.shields.io/badge/LinkedIn-yourdevdaniel-b8312f?logo=linkedin&labelColor=1d1a17&color=b8312f&style=for-the-badge&logoColor=efe6d2" alt="LinkedIn"></a>
-  <a href="mailto:danielbernardesaraujo10@gmail.com"><img src="https://img.shields.io/badge/Email-danielbernardesaraujo10-b8312f?logo=gmail&labelColor=1d1a17&color=b8312f&style=for-the-badge&logoColor=efe6d2" alt="Email"></a>
-  <a href="./Pt_Br.md"><img src="https://img.shields.io/badge/Leia_em-Português-b8312f?logo=googletranslate&labelColor=1d1a17&color=b8312f&style=for-the-badge&logoColor=efe6d2" alt="Leia em português"></a>
+  <a href="https://bernardes.dev"><img src="assets/plaques/en/portfolio.svg" height="52" alt="Portfolio"></a>
+  <a href="https://www.linkedin.com/in/yourdevdaniel"><img src="assets/plaques/en/linkedin.svg" height="52" alt="LinkedIn"></a>
+  <a href="mailto:danielbernardesaraujo10@gmail.com"><img src="assets/plaques/en/email.svg" height="52" alt="Email"></a>
+  <a href="./Pt_Br.md"><img src="assets/plaques/en/lang.svg" height="52" alt="Leia em português"></a>
 </p>
 
 <a href="https://bernardes.dev"><img src="assets/cards/en/portfolio.svg" width="100%" alt="bernardes.dev"></a>

@@ -41,6 +41,7 @@ PAPER, MIST, GREY, SUMI, SEAL = '#f1e9d8', '#c9c0b0', '#6f665d', '#1d1a17', '#b8
 INK, PANEL, LINE, DIM, TEXT = '#1d1a17', '#332e29', '#4a433c', '#a39785', '#efe6d2'
 OCHRE, CELADON, JADE, CREAM, CINNABAR = '#c9a25a', '#8fb3ab', '#93b07f', '#e8dcbf', '#d9573f'
 INK_TEXT = '#3b342e'  # small text on paper: darker than GREY so it reads like ink, not pencil
+WOOD, WOOD_DARK, SILK, RICE, GOLD = '#6b4a2f', '#3e2a1a', '#7a2b24', '#f8f2e4', '#d4a64a'  # scroll mounts: rollers, crimson silk, gold fret
 MONO = "font-family=\"ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace\""
 SERIF = "font-family=\"Georgia, 'Times New Roman', serif\""
 
@@ -99,6 +100,9 @@ DEFS = (
     f'<linearGradient id="mid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{GREY}"/><stop offset=".6" stop-color="{GREY}" stop-opacity="0"/></linearGradient>'
     f'<linearGradient id="near" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{SUMI}"/><stop offset=".6" stop-color="{SUMI}" stop-opacity=".7"/>'
     f'<stop offset="1" stop-color="{SUMI}" stop-opacity=".25"/></linearGradient>'
+    # the gold key-fret (回纹), the classic Chinese meander, woven into every silk mount
+    f'<pattern id="fret" width="12" height="12" patternUnits="userSpaceOnUse">'
+    f'<path d="M1.5,10.5 V1.5 H10.5 V8.5 H4 V4 H8 V6.5" fill="none" stroke="{GOLD}" stroke-width="1.1" opacity=".7"/></pattern>'
 )
 MOTION = '''  .mist { animation: drift 24s ease-in-out infinite alternate; }
   @keyframes drift { from { transform: translateX(-45px); } to { transform: translateX(45px); } }
@@ -122,12 +126,30 @@ def leaves(seed, w):
     )
 
 
-def svg(w, h, label, style, body, pad=0):
-    """pad adds a transparent margin around the card: GitHub strips CSS, so this is how cards side by side get a gap."""
+def roller(x0, x1, y, h):
+    """A wooden scroll roller from x0 to x1 with round knobs on both ends."""
+    return (f'<rect x="{x0}" y="{y}" width="{x1 - x0}" height="{h}" rx="{h / 2}" fill="{WOOD}"/>'
+            f'<rect x="{x0}" y="{y + 1}" width="{x1 - x0}" height="2" rx="1" fill="{OCHRE}" opacity=".35"/>'
+            + ''.join(f'<circle cx="{cx}" cy="{y + h / 2}" r="{h / 2 + 3}" fill="{WOOD_DARK}"/>' for cx in (x0 - 2, x1 + 2)))
+
+
+def mount(w, h, pad):
+    """Crimson silk with the gold fret around a (w, h) picture at (pad, pad), and a roller above and below."""
+    m = pad - 16
+    x, y, mw, mh = pad - m, pad - m, w + 2 * m, h + 2 * m
+    return (f'<rect x="{x}" y="{y}" width="{mw}" height="{mh}" fill="{SILK}"/><rect x="{x}" y="{y}" width="{mw}" height="{mh}" fill="url(#fret)"/>'
+            f'<rect x="{pad - 2}" y="{pad - 2}" width="{w + 4}" height="{h + 4}" fill="none" stroke="{GOLD}" stroke-width="1.5"/>'
+            + roller(x - 6, x + mw + 6, y - 5, 8) + roller(x - 6, x + mw + 6, y + mh - 4, 10))
+
+
+def svg(w, h, label, style, body, pad=0, mounted=False):
+    """pad adds a margin around the picture: GitHub strips CSS, so this is how cards side by side get a gap.
+    mounted fills that margin with a hanging-scroll mount (needs pad >= 24)."""
     ow, oh = w + 2 * pad, h + 2 * pad
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{ow}" height="{oh}" viewBox="0 0 {ow} {oh}" role="img" aria-label="{esc(label)}">\n'
-            f'<style>\n{style}\n</style>\n<defs>{DEFS}<clipPath id="card"><rect width="{w}" height="{h}" rx="12"/></clipPath></defs>\n'
-            f'<g transform="translate({pad},{pad})" clip-path="url(#card)">\n{body}\n<rect width="{w}" height="{h}" filter="url(#grain)"/>\n</g>\n</svg>\n')
+            f'<style>\n{style}\n</style>\n<defs>{DEFS}<clipPath id="card"><rect width="{w}" height="{h}" rx="{2 if mounted else 12}"/></clipPath></defs>\n'
+            + (mount(w, h, pad) + '\n' if mounted else '')
+            + f'<g transform="translate({pad},{pad})" clip-path="url(#card)">\n{body}\n<rect width="{w}" height="{h}" filter="url(#grain)"/>\n</g>\n</svg>\n')
 
 
 out = {}
@@ -153,12 +175,12 @@ out['title.svg'] = svg(TW, TH, 'Akira, Daniel Bernardes, full-stack developer: a
 <g class="sub">{seal("明", 336, 58, 46)}
 <text x="410" y="74" {SERIF} font-size="28" fill="{SUMI}" filter="url(#ink)">Daniel Bernardes</text>
 <text x="410" y="102" {SERIF} font-size="16" font-style="italic" fill="{INK_TEXT}" filter="url(#ink)">full-stack developer · Django · React · TypeScript</text>
-<text x="411" y="128" {SERIF} font-size="11" letter-spacing="3" fill="{SEAL}" filter="url(#ink)">OPEN TO INTERNSHIPS AND JUNIOR ROLES</text></g>''')
+<text x="411" y="128" {SERIF} font-size="11" letter-spacing="3" fill="{SEAL}" filter="url(#ink)">OPEN TO INTERNSHIPS AND JUNIOR ROLES</text></g>''', pad=30, mounted=True)
 
 # ---- Header: one hanging scroll with my fastfetch, the rest is landscape.
 W, H = 1000, 340
 rng = random.Random(7)
-mountains = ''.join(
+far, mid, near = (
     f'<path d="{ridge(rng, peaks, base, W, H)}" fill="url(#{g})" filter="url(#brush)"/>'
     for peaks, base, g in [
         ([(520, 60, 70), (640, 110, 50), (760, 90, 60), (880, 130, 45)], 230, 'far'),
@@ -166,6 +188,15 @@ mountains = ''.join(
         ([(460, 50, 80), (700, 100, 55), (900, 120, 50)], 350, 'near'),
     ]
 )
+# The far shore: low hills where the mountains meet the lake, so they stand on it instead of fading out,
+# and their reflection upside down in the water.
+SHORE_Y = 269
+shore_rng = random.Random(3)
+shore_top = [(x, SHORE_Y - 3 - 9 * math.exp(-((x - c) / 40) ** 2) - shore_rng.uniform(0, 2))
+             for x in range(430, W + 5, 5) for c in [min((520, 610, 760, 900), key=lambda c: abs(c - x))]]
+shore = 'M' + ' L'.join(f'{x},{y:.1f}' for x, y in shore_top) + f' L{W},{SHORE_Y} L430,{SHORE_Y} Z'
+SHORE = (f'<path d="{shore}" fill="{GREY}" opacity=".7" filter="url(#brush-soft)"/>'
+         f'<path d="{shore}" transform="translate(0,{2 * SHORE_Y}) scale(1,-1)" fill="{GREY}" opacity=".18" filter="url(#brush-soft)"/>')
 fetch_lines = [
     ('Study', 'Computer Science · Ceulp/ULBRA'),
     ('Work', 'EGEFAZ · IT intern, full stack'),
@@ -179,7 +210,6 @@ langs = [('Python', 48.3, CELADON), ('JavaScript', 25.4, OCHRE), ('TypeScript', 
 # The fastfetch is a hanging scroll (kakejiku): wooden rods, a silk mount, rice paper, the lines in ink.
 # On load the paper unrolls downwards, then each line soaks in.
 INKFONT = "style=\"font-family: Georgia, 'Times New Roman', serif\""  # the stylesheet sets mono on every <text>, so serif goes inline
-WOOD, WOOD_DARK, SILK, RICE, GOLD = '#6b4a2f', '#3e2a1a', '#7a2b24', '#f8f2e4', '#d4a64a'
 L, R, TOP, BOT = 30, 458, 46, 322  # scroll edges: left, right, top rod, bottom rod
 # Each key gets its hanzi in ink before the English word: study, work, craft, numbers, tools, speech.
 hanzi = '学工技数器言'
@@ -197,18 +227,16 @@ for n, p, c in ink_langs:
     segs.append(f'<rect x="{bx:.1f}" y="270" width="{372 * p / 100:.1f}" height="7" fill="{c}" filter="url(#brush-soft)"/>')
     bx += 372 * p / 100
 legend = '  ·  '.join(f'{n} {round(p)}%' for n, p, _ in langs[:4])
+# The workspace tabs, numbered in brush hanzi like plaques on a temple beam; the active one is gold.
 tags = ''
 x = 12.0
-for t in ['1 db', '2 algo', '3 oop', '4 web', '5 ai']:
-    w = 14 + 7.2 * len(t)
-    tags += (f'<rect x="{x:.1f}" y="6" width="{w:.1f}" height="18" rx="9" fill="{SEAL if t == "4 web" else PANEL}"/>'
-             f'<text x="{x + w / 2:.1f}" y="19" font-size="11" text-anchor="middle" fill="{TEXT}">{t}</text>')
+for n, t in zip('一二三四五', ['db', 'algo', 'oop', 'web', 'ai']):
+    on = t == 'web'
+    w = 30 + 7.2 * len(t)
+    tags += (f'<rect x="{x:.1f}" y="6" width="{w:.1f}" height="18" rx="3" fill="{"#d4a64a" if on else "#5a1f1a"}" stroke="#d4a64a" stroke-opacity=".6"/>'
+             f'<path d="{brush(n, x + 6, 20.5, 13)}" fill="{SUMI if on else "#d4a64a"}"/>'
+             f'<text x="{x + 23:.1f}" y="19" font-size="11" fill="{SUMI if on else CREAM}">{t}</text>')
     x += w + 6
-
-
-# The silk mount carries a gold key-fret (回纹) border, the classic Chinese meander.
-FRET = (f'<defs><pattern id="fret" width="12" height="12" patternUnits="userSpaceOnUse">'
-        f'<path d="M1.5,10.5 V1.5 H10.5 V8.5 H4 V4 H8 V6.5" fill="none" stroke="{GOLD}" stroke-width="1.1" opacity=".7"/></pattern></defs>')
 
 
 def lantern(x, top, drop, delay):
@@ -248,11 +276,17 @@ PLUM = (f'<path d="M1000,38 C950,40 900,52 860,50 C830,49 805,58 782,72 M905,49 
                   for bx, by, c in [(783, 71, SEAL), (812, 36, CINNABAR), (872, 80, SEAL), (930, 46, CINNABAR), (862, 50, SEAL), (968, 39, SEAL)]))
 
 
+# A fisherman in a sampan, drifting on the mist: the classic small figure of a shanshui painting.
+BOAT = (f'<g class="boat"><path d="M-30,-3 Q-24,6 0,6 Q24,6 32,-5 Q20,0 0,0 Q-18,0 -30,-3 Z" fill="{SUMI}"/>'
+        f'<path d="M-21,-1 Q-21,-11 -12,-12 Q-3,-11 -3,-1 Z" fill="{GREY}"/>'
+        f'<path d="M5,0 Q5,-8 9.5,-9 Q14,-8 14,0 Z" fill="{SUMI}"/><path d="M1,-8 L9.5,-15 L18,-8 Q9.5,-6.5 1,-8 Z" fill="{SUMI}"/>'
+        f'<path d="M13,-5 L40,-24" stroke="{SUMI}" stroke-width="1.1" stroke-linecap="round"/><path d="M40,-24 Q42,-10 41,7" fill="none" stroke="{SUMI}" stroke-width=".5" opacity=".6"/>'
+        f'<path d="M-30,-3 Q-24,6 0,6 Q24,6 32,-5 Q20,0 0,0 Q-18,0 -30,-3 Z" transform="translate(0,13) scale(1,-.6)" fill="{SUMI}" opacity=".15" filter="url(#brush-soft)"/>'
+        f'<path d="M-40,8 h18 M18,9 h24 M-24,12 h14" stroke="{GREY}" stroke-width="1" stroke-linecap="round" opacity=".5"/></g>')
+
+
 def rod(y, h):
-    """A wooden roller with round knobs on both ends."""
-    return (f'<rect x="{L - 10}" y="{y}" width="{R - L + 20}" height="{h}" rx="{h / 2}" fill="{WOOD}"/>'
-            f'<rect x="{L - 10}" y="{y + 1}" width="{R - L + 20}" height="2" rx="1" fill="{OCHRE}" opacity=".35"/>'
-            + ''.join(f'<circle cx="{cx}" cy="{y + h / 2}" r="{h / 2 + 3}" fill="{WOOD_DARK}"/>' for cx in (L - 12, R + 12)))
+    return roller(L - 10, R + 10, y, h)
 
 
 out['header-rice.svg'] = svg(W, H, 'A tiling-WM desktop over an ink-wash landscape: a hanging scroll with my studies, work, stack and languages', f'''  text {{ font-family: ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace; }}
@@ -265,28 +299,38 @@ out['header-rice.svg'] = svg(W, H, 'A tiling-WM desktop over an ink-wash landsca
   .swing {{ transform-origin: {(L + R) / 2}px 34px; animation: swing 7s ease-in-out 1.3s infinite alternate; }}
   @keyframes swing {{ from {{ transform: rotate(-.35deg); }} to {{ transform: rotate(.35deg); }} }}
 {MOTION}
+  .boat {{ animation: drift-boat 30s ease-in-out infinite alternate; }}
+  @keyframes drift-boat {{ from {{ transform: translate(530px,266px) scale(1.5); }} to {{ transform: translate(570px,266px) scale(1.5); }} }}
   .lantern {{ animation: sway 4s ease-in-out infinite alternate; }}
   @keyframes sway {{ from {{ transform: rotate(-4deg); }} to {{ transform: rotate(4deg); }} }}
-  @media (prefers-reduced-motion: reduce) {{ .roll, .rod, .swing, .lantern {{ animation: none; }} }}''', f'''<rect width="{W}" height="{H}" fill="{PAPER}"/>
+  @media (prefers-reduced-motion: reduce) {{ .roll, .rod, .swing, .lantern, .boat {{ animation: none; }} .boat {{ transform: translate(550px,266px) scale(1.5); }} }}''', f'''<rect width="{W}" height="{H}" fill="{PAPER}"/>
 <circle cx="760" cy="96" r="34" fill="url(#sun)"/>
-{mountains}
+{far}{mid}
+<linearGradient id="lake" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{GREY}" stop-opacity="0"/><stop offset=".05" stop-color="{GREY}" stop-opacity=".3"/><stop offset="1" stop-color="{MIST}" stop-opacity=".15"/></linearGradient>
+<rect x="430" y="266" width="{W - 430}" height="{H - 266}" fill="url(#lake)"/>
+<path d="M436,269 H{W} M470,275 h150 M650,276 h90 M500,282 h70 M610,290 h60 M720,279 h50" stroke="{GREY}" stroke-width="1" stroke-linecap="round" opacity=".35"/>
+{SHORE}
+{near}
+{BIRDS}
 <path d="{pagoda(616, 110, 1.2)}" fill="{GREY}"/>
 {PLUM}
 <g class="mist"><ellipse cx="700" cy="280" rx="360" ry="16" fill="{PAPER}" opacity=".9" filter="url(#blur)"/></g>
-{BIRDS}
+{BOAT}
 <path d="{brush("二天一流", 912, 110, 46, vertical=True)}" fill="{SUMI}" opacity=".9"/>
 {seal("明", 913, 272, 44)}
 {lantern(494, 30, 10, 0)}{lantern(534, 30, 26, -1.7)}
-<rect width="{W}" height="30" fill="{INK}" fill-opacity=".92"/>{tags}
-<text x="500" y="20" font-size="12" text-anchor="middle" fill="{CREAM}">Yourdevdaniel</text>
-<text x="986" y="20" font-size="12" text-anchor="end" fill="{TEXT}">Brazil  ·  open to work  ·  <tspan fill="{CINNABAR}">●</tspan></text>
+<rect width="{W}" height="30" fill="{SILK}"/><rect y="0" width="{W}" height="30" fill="url(#fret)" opacity=".35"/>
+<rect y="2" width="{W}" height="1" fill="{GOLD}" opacity=".8"/><rect y="27" width="{W}" height="1.5" fill="{GOLD}" opacity=".8"/><rect y="30" width="{W}" height="3" fill="{WOOD_DARK}" opacity=".5"/>{tags}
+<rect x="436" y="5" width="128" height="20" rx="2" fill="{WOOD_DARK}" stroke="{GOLD}"/>
+<text x="500" y="19.5" font-size="12" text-anchor="middle" fill="{GOLD}">Yourdevdaniel</text>
+<text x="986" y="20" font-size="12" text-anchor="end" fill="{CREAM}">Brazil  ·  open to work  ·  <tspan fill="{GOLD}">●</tspan></text>
 <g class="swing">
 <path d="M{L + 40},{TOP + 2} L{(L + R) / 2},36 L{R - 40},{TOP + 2}" fill="none" stroke="{WOOD_DARK}" stroke-width="1.5"/>
 <circle cx="{(L + R) / 2}" cy="36" r="2.5" fill="{WOOD_DARK}"/>
 <clipPath id="unroll"><rect class="roll" x="0" y="{TOP}" width="{W}" height="{BOT - TOP + 14}"/></clipPath>
 <g clip-path="url(#unroll)">
 <rect x="{L + 4}" y="{TOP + 6}" width="{R - L - 8}" height="{BOT - TOP}" fill="{SUMI}" opacity=".18" transform="translate(5,5)" filter="url(#blur)"/>
-{FRET}<rect x="{L}" y="{TOP + 6}" width="{R - L}" height="{BOT - TOP - 4}" fill="{SILK}"/>
+<rect x="{L}" y="{TOP + 6}" width="{R - L}" height="{BOT - TOP - 4}" fill="{SILK}"/>
 <rect x="{L}" y="{TOP + 6}" width="{R - L}" height="{BOT - TOP - 4}" fill="url(#fret)"/>
 <rect x="{L}" y="{TOP + 6}" width="{R - L}" height="10" fill="{WOOD_DARK}" opacity=".35"/>
 <rect x="{L}" y="{BOT - 12}" width="{R - L}" height="10" fill="{WOOD_DARK}" opacity=".35"/>
@@ -353,7 +397,7 @@ out['ronin.svg'] = svg(SW, SH, 'Ink-wash scene: a ronin stands on a cliff in the
 {ronin}
 {leaves(3, SW)}
 <path d="{brush("明镜止水", 46, 74, 44, vertical=True)}" fill="{SUMI}" opacity=".88"/>
-{seal("明", 50, 252, 34, angle=4)}''')
+{seal("明", 50, 252, 34, angle=4)}''', pad=30, mounted=True)
 
 # ---- Project cards: the screenshot from my portfolio on top, an ink label below.
 SHOTS = root / 'assets' / 'shots'  # copied from Yourdevdaniel/portfolio (public/og.png, public/work/*.webp)
@@ -399,7 +443,7 @@ def card(name, kind, shot, stack, blurb):
 <text x="74" y="232" {SERIF} font-size="21" font-weight="700" fill="{SUMI}" filter="url(#ink)">{name}</text>
 <text x="74" y="254" {SERIF} font-size="13.5" font-style="italic" fill="{INK_TEXT}" filter="url(#ink)">{esc(blurb)}</text>
 <text x="74" y="276" {MONO} font-size="11" fill="{SEAL}" filter="url(#ink)">{esc(stack)}</text>
-<text x="462" y="232" {SERIF} font-size="20" text-anchor="end" fill="{SEAL}" filter="url(#ink)">›</text>''', pad=12)
+<text x="462" y="232" {SERIF} font-size="20" text-anchor="end" fill="{SEAL}" filter="url(#ink)">›</text>''', pad=30, mounted=True)
 
 
 def portfolio_card(lang):
@@ -420,13 +464,35 @@ def portfolio_card(lang):
 <text x="612" y="216" {MONO} font-size="11.5" fill="{SEAL}" filter="url(#ink)">React · TypeScript · GSAP</text>
 <rect x="612" y="236" width="196" height="38" rx="4" fill="{SEAL}" filter="url(#brush-soft)"/>
 <text x="710" y="260" {SERIF} font-size="13" letter-spacing="2" text-anchor="middle" fill="{PAPER}">{cta}</text>
-{seal("明", 930, 236, 40)}''')
+{seal("明", 930, 236, 40)}''', pad=30, mounted=True)
 
 
 for i, lang in enumerate(['en', 'pt']):
     out[f'cards/{lang}/portfolio.svg'] = portfolio_card(lang)
     for name, kind, shot, stack, blurbs in PROJECTS:
         out[f'cards/{lang}/{name}.svg'] = card(name, kind, shot, stack, blurbs[i])
+
+PLAQUES = {  # file: (hanzi, en label, pt label, value)
+    'portfolio': ('作', 'PORTFOLIO', 'PORTFÓLIO', 'bernardes.dev'),
+    'linkedin': ('联', 'LINKEDIN', 'LINKEDIN', 'yourdevdaniel'),
+    'email': ('信', 'EMAIL', 'E-MAIL', 'danielbernardesaraujo10'),
+    'lang': ('译', 'READ IN', 'LEIA EM', None),
+}
+
+
+def plaque(ch, label, value):
+    pw = round(60 + 7.6 * max(len(value), len(label) * 1.3))
+    return svg(pw, 44, f'{label.title()} {value}', '', f'''<rect width="{pw}" height="44" fill="{WOOD_DARK}"/>
+<rect width="44" height="44" fill="{SILK}"/><rect width="44" height="44" fill="url(#fret)" opacity=".5"/>
+<path d="{brush(ch, 9, 37, 27)}" fill="{GOLD}"/>
+<rect x="1" y="1" width="{pw - 2}" height="42" rx="2" fill="none" stroke="{GOLD}" stroke-width="1.5"/><line x1="44" y1="1" x2="44" y2="43" stroke="{GOLD}" stroke-width="1.5"/>
+<text x="56" y="18" {SERIF} font-size="9.5" letter-spacing="2.5" fill="{GOLD}">{label}</text>
+<text x="56" y="34" {SERIF} font-size="13.5" fill="{CREAM}">{esc(value)}</text>''', pad=4)
+
+
+for i, lang in enumerate(['en', 'pt']):
+    for name, (ch, *labels, value) in PLAQUES.items():
+        out[f'plaques/{lang}/{name}.svg'] = plaque(ch, labels[i], value or ('Português', 'English')[i])
 
 for file, text in out.items():
     path = root / 'assets' / file
