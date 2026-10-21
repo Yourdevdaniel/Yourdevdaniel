@@ -1,6 +1,6 @@
 <img src="assets/title.svg" width="100%" alt="Akira: Daniel Bernardes, desenvolvedor full-stack, aberto a estágio e vagas júnior">
 
-<img src="assets/header-rice.svg" width="100%" alt="Desktop de tiling WM sobre uma paisagem em nanquim: fastfetch com meus estudos (Ciência da Computação, Ceulp/ULBRA), trabalho (estagiário de TI na EGEFAZ), stack e idiomas">
+<img src="assets/header-rice.svg" width="100%" alt="Desktop de tiling WM sobre uma paisagem em nanquim: um pergaminho pendurado com meus estudos (Ciência da Computação, Ceulp/ULBRA), trabalho (estagiário de TI na EGEFAZ), stack e idiomas">
 
 <p align="center">Ciência da Computação no Ceulp/ULBRA, estagiário de TI na <b>EGEFAZ</b>. Começo numa bagunça real e termino com a correção medida e testada.</p>
 

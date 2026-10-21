@@ -1,7 +1,7 @@
 """Builds the ink-wash (sumi-e) images of my profile README:
 
   assets/title.svg         a sword cut through "Akira"
-  assets/header-rice.svg   a tiling-WM desktop with one fastfetch window over an ink landscape
+  assets/header-rice.svg   a tiling-WM desktop with a hanging scroll (my fastfetch) over an ink landscape
   assets/ronin.svg         a ronin on a cliff in the wind, closing the page
   assets/cards/{en,pt}/    one card per project, with the screenshot from my portfolio
 
@@ -155,7 +155,7 @@ out['title.svg'] = svg(TW, TH, 'Akira, Daniel Bernardes, full-stack developer: a
 <text x="410" y="102" {SERIF} font-size="16" font-style="italic" fill="{INK_TEXT}" filter="url(#ink)">full-stack developer · Django · React · TypeScript</text>
 <text x="411" y="128" {SERIF} font-size="11" letter-spacing="3" fill="{SEAL}" filter="url(#ink)">OPEN TO INTERNSHIPS AND JUNIOR ROLES</text></g>''')
 
-# ---- Header: one fastfetch window, the rest is landscape.
+# ---- Header: one hanging scroll with my fastfetch, the rest is landscape.
 W, H = 1000, 340
 rng = random.Random(7)
 mountains = ''.join(
@@ -171,21 +171,32 @@ fetch_lines = [
     ('Work', 'EGEFAZ · IT intern, full stack'),
     ('Stack', 'Django · DRF · React · TypeScript'),
     ('Data', 'PostgreSQL · Redis'),
-    ('AI', 'Claude Code · Ollama · Whisper'),
+    ('Tools', 'Claude Code · Ollama · Whisper'),
     ('Locale', 'pt-BR · en (C1) · es (A2)'),
 ]
 # Share of bytes per language across my featured repos (GitHub language stats, Oct 2026).
 langs = [('Python', 48.3, CELADON), ('JavaScript', 25.4, OCHRE), ('TypeScript', 15.4, CREAM), ('CSS', 9.6, JADE), ('Other', 1.4, DIM)]
+# The fastfetch is a hanging scroll (kakejiku): wooden rods, a silk mount, rice paper, the lines in ink.
+# On load the paper unrolls downwards, then each line soaks in.
+INKFONT = "style=\"font-family: Georgia, 'Times New Roman', serif\""  # the stylesheet sets mono on every <text>, so serif goes inline
+WOOD, WOOD_DARK, SILK, RICE, GOLD = '#6b4a2f', '#3e2a1a', '#7a2b24', '#f8f2e4', '#d4a64a'
+L, R, TOP, BOT = 30, 458, 46, 322  # scroll edges: left, right, top rod, bottom rod
+# Each key gets its hanzi in ink before the English word: study, work, craft, numbers, tools, speech.
+hanzi = '学工技数器言'
 rows = ''.join(
-    f'<text class="in" style="animation-delay:{0.3 + 0.1 * i:.1f}s" x="44" y="{150 + 24 * i}" font-size="13">'
-    f'<tspan fill="{CINNABAR}" font-weight="700">{k}</tspan><tspan x="112" fill="{TEXT}">{esc(v)}</tspan></text>'
-    for i, (k, v) in enumerate(fetch_lines)
+    f'<g class="in" style="animation-delay:{1.4 + 0.12 * i:.2f}s">'
+    f'<path d="{brush(h, 60, 147 + 22 * i, 19)}" fill="{SUMI}"/>'
+    f'<path d="{brush(k, 86, 146 + 22 * i, 15)}" fill="{SEAL}"/>'
+    f'<text x="140" y="{146 + 22 * i}" font-size="14" fill="{INK_TEXT}" filter="url(#ink)" {INKFONT}>{esc(v)}</text></g>'
+    for i, ((k, v), h) in enumerate(zip(fetch_lines, hanzi))
 )
-segs, bx = [], 44.0
-for n, p, c in langs:
-    segs.append(f'<rect x="{bx:.1f}" y="300" width="{392 * p / 100:.1f}" height="8" fill="{c}"/>')
-    bx += 392 * p / 100
-legend = '  '.join(f'{n} {round(p)}%' for n, p, _ in langs[:4])
+# On paper the dark-mode colours vanish, so the bar uses ink tones.
+ink_langs = [(n, p, c) for (n, p, _), c in zip(langs, [SUMI, SEAL, GREY, OCHRE, MIST])]
+segs, bx = [], 62.0
+for n, p, c in ink_langs:
+    segs.append(f'<rect x="{bx:.1f}" y="270" width="{372 * p / 100:.1f}" height="7" fill="{c}" filter="url(#brush-soft)"/>')
+    bx += 372 * p / 100
+legend = '  ·  '.join(f'{n} {round(p)}%' for n, p, _ in langs[:4])
 tags = ''
 x = 12.0
 for t in ['1 db', '2 algo', '3 oop', '4 web', '5 ai']:
@@ -193,28 +204,104 @@ for t in ['1 db', '2 algo', '3 oop', '4 web', '5 ai']:
     tags += (f'<rect x="{x:.1f}" y="6" width="{w:.1f}" height="18" rx="9" fill="{SEAL if t == "4 web" else PANEL}"/>'
              f'<text x="{x + w / 2:.1f}" y="19" font-size="11" text-anchor="middle" fill="{TEXT}">{t}</text>')
     x += w + 6
-out['header-rice.svg'] = svg(W, H, 'A tiling-WM desktop over an ink-wash landscape: fastfetch with my studies, work, stack and languages', f'''  text {{ font-family: ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace; }}
-  .in {{ opacity: 0; animation: in .35s ease-out forwards; }}
-  @keyframes in {{ from {{ opacity: 0; transform: translateX(-4px); }} to {{ opacity: 1; transform: none; }} }}
-  .cur {{ animation: blink 1s steps(1) infinite; }}
-  @keyframes blink {{ 50% {{ opacity: 0; }} }}
-{MOTION}''', f'''<rect width="{W}" height="{H}" fill="{PAPER}"/>
+
+
+# The silk mount carries a gold key-fret (回纹) border, the classic Chinese meander.
+FRET = (f'<defs><pattern id="fret" width="12" height="12" patternUnits="userSpaceOnUse">'
+        f'<path d="M1.5,10.5 V1.5 H10.5 V8.5 H4 V4 H8 V6.5" fill="none" stroke="{GOLD}" stroke-width="1.1" opacity=".7"/></pattern></defs>')
+
+
+def lantern(x, top, drop, delay):
+    """A red paper lantern on a string, swinging from the bar."""
+    y = top + drop
+    return (f'<g class="lantern" style="transform-origin:{x}px {top}px;animation-delay:{delay}s">'
+            f'<line x1="{x}" y1="{top}" x2="{x}" y2="{y}" stroke="{WOOD_DARK}" stroke-width="1.2"/>'
+            f'<rect x="{x - 6}" y="{y}" width="12" height="4" rx="1" fill="{GOLD}"/>'
+            f'<ellipse cx="{x}" cy="{y + 17}" rx="15" ry="14" fill="{SEAL}"/>'
+            + ''.join(f'<ellipse cx="{x}" cy="{y + 17}" rx="{r}" ry="14" fill="none" stroke="{CINNABAR}" stroke-width=".9"/>' for r in (5, 10))
+            + f'<path d="{brush("福", x - 8, y + 24, 16)}" fill="{GOLD}"/>'
+            f'<rect x="{x - 6}" y="{y + 30}" width="12" height="4" rx="1" fill="{GOLD}"/>'
+            f'<path d="M{x},{y + 34} v4 M{x - 3},{y + 38} l-1,12 M{x},{y + 38} v13 M{x + 3},{y + 38} l1,12" stroke="{SEAL}" stroke-width="1.2" stroke-linecap="round"/></g>')
+
+
+def pagoda(x, base, k):
+    """A five-storey pagoda with upturned eaves, drawn bottom-up from (x, base)."""
+    d, y = '', base
+    for i in range(5):
+        w = (11 - 1.6 * i) * k
+        d += f'M{x - w * .7:.1f},{y:.1f} h{w * 1.4:.1f} v{-6 * k:.1f} h{-w * 1.4:.1f} Z '
+        y -= 6 * k
+        e = w + 6 * k
+        d += (f'M{x - e:.1f},{y - 3 * k:.1f} q{3 * k:.1f},{3 * k:.1f} {e * .5:.1f},{2.5 * k:.1f} h{e:.1f} '
+              f'q{e * .5 - 3 * k:.1f},{.5 * k:.1f} {e * .5:.1f},{-2.5 * k:.1f} q{-4 * k:.1f},{-1 * k:.1f} {-e * .4:.1f},{-1 * k:.1f} h{-e * 1.2:.1f} Z ')
+        y -= 3 * k
+    d += f'M{x - .8 * k:.1f},{y:.1f} h{1.6 * k:.1f} v{-9 * k:.1f} h{-1.6 * k:.1f} Z'
+    return d
+
+
+# A plum branch (梅) reaching in from the right edge across the sun.
+PLUM = (f'<path d="M1000,38 C950,40 900,52 860,50 C830,49 805,58 782,72 M905,49 C895,62 888,72 872,80 M842,52 C835,42 826,38 812,36" '
+        f'fill="none" stroke="{SUMI}" stroke-width="3.2" stroke-linecap="round" filter="url(#brush-soft)"/>'
+        + ''.join(f'<g transform="translate({bx},{by})">'
+                  + ''.join(f'<circle cx="{3.2 * math.cos(a * math.pi / 2.5):.1f}" cy="{3.2 * math.sin(a * math.pi / 2.5):.1f}" r="3" fill="{c}"/>' for a in range(5))
+                  + f'<circle r="1.4" fill="{GOLD}"/></g>'
+                  for bx, by, c in [(783, 71, SEAL), (812, 36, CINNABAR), (872, 80, SEAL), (930, 46, CINNABAR), (862, 50, SEAL), (968, 39, SEAL)]))
+
+
+def rod(y, h):
+    """A wooden roller with round knobs on both ends."""
+    return (f'<rect x="{L - 10}" y="{y}" width="{R - L + 20}" height="{h}" rx="{h / 2}" fill="{WOOD}"/>'
+            f'<rect x="{L - 10}" y="{y + 1}" width="{R - L + 20}" height="2" rx="1" fill="{OCHRE}" opacity=".35"/>'
+            + ''.join(f'<circle cx="{cx}" cy="{y + h / 2}" r="{h / 2 + 3}" fill="{WOOD_DARK}"/>' for cx in (L - 12, R + 12)))
+
+
+out['header-rice.svg'] = svg(W, H, 'A tiling-WM desktop over an ink-wash landscape: a hanging scroll with my studies, work, stack and languages', f'''  text {{ font-family: ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas, monospace; }}
+  .in {{ opacity: 0; animation: in .6s ease-out forwards; }}
+  @keyframes in {{ from {{ opacity: 0; transform: translateY(2px); }} to {{ opacity: 1; transform: none; }} }}
+  .roll {{ transform-origin: 0 {TOP}px; animation: roll 1.3s cubic-bezier(.3,.7,.4,1) both; }}
+  @keyframes roll {{ from {{ transform: scaleY(0); }} to {{ transform: none; }} }}
+  .rod {{ animation: drop 1.3s cubic-bezier(.3,.7,.4,1) both; }}
+  @keyframes drop {{ from {{ transform: translateY(-{BOT - TOP - 10}px); }} to {{ transform: none; }} }}
+  .swing {{ transform-origin: {(L + R) / 2}px 34px; animation: swing 7s ease-in-out 1.3s infinite alternate; }}
+  @keyframes swing {{ from {{ transform: rotate(-.35deg); }} to {{ transform: rotate(.35deg); }} }}
+{MOTION}
+  .lantern {{ animation: sway 4s ease-in-out infinite alternate; }}
+  @keyframes sway {{ from {{ transform: rotate(-4deg); }} to {{ transform: rotate(4deg); }} }}
+  @media (prefers-reduced-motion: reduce) {{ .roll, .rod, .swing, .lantern {{ animation: none; }} }}''', f'''<rect width="{W}" height="{H}" fill="{PAPER}"/>
 <circle cx="760" cy="96" r="34" fill="url(#sun)"/>
 {mountains}
+<path d="{pagoda(616, 110, 1.2)}" fill="{GREY}"/>
+{PLUM}
 <g class="mist"><ellipse cx="700" cy="280" rx="360" ry="16" fill="{PAPER}" opacity=".9" filter="url(#blur)"/></g>
 {BIRDS}
 <path d="{brush("二天一流", 912, 110, 46, vertical=True)}" fill="{SUMI}" opacity=".9"/>
 {seal("明", 913, 272, 44)}
+{lantern(494, 30, 10, 0)}{lantern(534, 30, 26, -1.7)}
 <rect width="{W}" height="30" fill="{INK}" fill-opacity=".92"/>{tags}
 <text x="500" y="20" font-size="12" text-anchor="middle" fill="{CREAM}">Yourdevdaniel</text>
 <text x="986" y="20" font-size="12" text-anchor="end" fill="{TEXT}">Brazil  ·  open to work  ·  <tspan fill="{CINNABAR}">●</tspan></text>
-<rect x="24" y="50" width="440" height="276" rx="10" fill="{INK}" fill-opacity=".9" stroke="{SEAL}" stroke-width="2"/>
-<text x="38" y="72" font-size="12" fill="{DIM}">~ — fastfetch</text><line x1="24" y1="82" x2="464" y2="82" stroke="{LINE}"/>
-<text class="in" style="animation-delay:.1s" x="44" y="108" font-size="15" font-weight="700"><tspan fill="{OCHRE}">akira</tspan><tspan fill="{DIM}">@</tspan><tspan fill="{CINNABAR}">egefaz</tspan></text>
-<text class="in" style="animation-delay:.2s" x="44" y="126" font-size="13" fill="{DIM}">────────────────</text>
+<g class="swing">
+<path d="M{L + 40},{TOP + 2} L{(L + R) / 2},36 L{R - 40},{TOP + 2}" fill="none" stroke="{WOOD_DARK}" stroke-width="1.5"/>
+<circle cx="{(L + R) / 2}" cy="36" r="2.5" fill="{WOOD_DARK}"/>
+<clipPath id="unroll"><rect class="roll" x="0" y="{TOP}" width="{W}" height="{BOT - TOP + 14}"/></clipPath>
+<g clip-path="url(#unroll)">
+<rect x="{L + 4}" y="{TOP + 6}" width="{R - L - 8}" height="{BOT - TOP}" fill="{SUMI}" opacity=".18" transform="translate(5,5)" filter="url(#blur)"/>
+{FRET}<rect x="{L}" y="{TOP + 6}" width="{R - L}" height="{BOT - TOP - 4}" fill="{SILK}"/>
+<rect x="{L}" y="{TOP + 6}" width="{R - L}" height="{BOT - TOP - 4}" fill="url(#fret)"/>
+<rect x="{L}" y="{TOP + 6}" width="{R - L}" height="10" fill="{WOOD_DARK}" opacity=".35"/>
+<rect x="{L}" y="{BOT - 12}" width="{R - L}" height="10" fill="{WOOD_DARK}" opacity=".35"/>
+<rect x="{L + 12}" y="{TOP + 22}" width="{R - L - 24}" height="{BOT - TOP - 40}" fill="{RICE}"/>
+<rect x="{L + 12}" y="{TOP + 22}" width="{R - L - 24}" height="{BOT - TOP - 40}" fill="none" stroke="{OCHRE}" stroke-width="1" opacity=".6"/>
+<g class="in" style="animation-delay:1.1s"><path d="{brush("akira", 62, 106, 30)}" fill="{SUMI}"/>
+<text x="124" y="104" font-size="15" font-style="italic" fill="{INK_TEXT}" filter="url(#ink)" {INKFONT}>at EGEFAZ</text>
+{seal("明", 404, 80, 28, angle=4)}
+<path d="M60,120 q90,-4 180,0 t182,-1" fill="none" stroke="{SUMI}" stroke-width="2.4" stroke-linecap="round" opacity=".75" filter="url(#brush-soft)"/></g>
 {rows}
-<g class="in" style="animation-delay:1s">{"".join(segs)}<text x="44" y="320" font-size="10.5" fill="{DIM}">{legend}</text></g>
-<rect class="cur" x="160" y="96" width="8" height="15" fill="{OCHRE}"/>''')
+<g class="in" style="animation-delay:2.2s">{"".join(segs)}<text x="62" y="289" font-size="10.5" fill="{GREY}" {INKFONT}>{legend}</text></g>
+</g>
+{rod(TOP, 9)}
+<g class="rod">{rod(BOT - 4, 12)}</g>
+</g>''')
 
 # ---- Closing scene: a ronin on a cliff in the wind, a pine, a red sun.
 # 明镜止水, "clear mirror, still water": the calm mind of the swordsman, and 明 is Akira.

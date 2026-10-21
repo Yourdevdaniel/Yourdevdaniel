@@ -1,6 +1,6 @@
 <img src="assets/title.svg" width="100%" alt="Akira: Daniel Bernardes, full-stack developer, open to internships and junior roles">
 
-<img src="assets/header-rice.svg" width="100%" alt="A tiling-WM desktop over an ink-wash landscape: fastfetch with my studies (Computer Science, Ceulp/ULBRA), work (IT intern at EGEFAZ), stack and languages">
+<img src="assets/header-rice.svg" width="100%" alt="A tiling-WM desktop over an ink-wash landscape: a hanging scroll with my studies (Computer Science, Ceulp/ULBRA), work (IT intern at EGEFAZ), stack and languages">
 
 <p align="center">Computer Science at Ceulp/ULBRA, IT intern at <b>EGEFAZ</b>. I start from a real mess and end with the fix measured and tested.</p>
 
